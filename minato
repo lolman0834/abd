@@ -1,0 +1,500 @@
+--[[ Moves 
+   Rasengan
+    Key: E
+    Damage: 50
+   Flying Thunder God
+    Key: R
+    Damage: 300
+   Flying Thunder God Seal
+    Key: T
+    Damage: N/A
+   Shurikens
+    Key: Y
+    Damage: 7.5 per shuriken
+   Flying Rajin
+    Key: V
+    Damage: N/A
+   Reaper Death Seal
+    Key: F
+    Damage: inf
+--]]
+
+-- Locals
+local player = game.Players.LocalPlayer
+local RASENGAN = false
+local enabled = true
+local shikifujin = false
+local thundergod = false
+local tService = game:GetService("TweenService")
+local char = player.Character
+local uis = game:GetService("UserInputService")
+local human = char:FindFirstChild("Humanoid")
+local mouse = player:GetMouse()
+-- Functions
+function damage1(humanoid,damage,knock,cframe,sound,image,color) 
+    local A_1 = humanoid
+    local A_2 = cframe
+    local A_3 = damage
+    local A_4 = 0
+    local A_5 = knock
+    local A_6 = image
+    local A_7 = 0
+    local A_8 = color
+    local A_9 = sound
+    local A_10 = 1
+    local A_11 = 2
+    local Event = game:GetService("ReplicatedStorage").Damage
+    Event:FireServer(A_1, A_2, A_3, A_4, A_5, A_6, A_7, A_8, A_9, A_10, A_11)
+end
+
+function sound(humanoid,damage,knock,cframe,sound,image,color,pitch,vol) 
+    local A_1 = humanoid
+    local A_2 = cframe
+    local A_3 = damage
+    local A_4 = 0
+    local A_5 = knock
+    local A_6 = image
+    local A_7 = 0
+    local A_8 = color
+    local A_9 = sound
+    local A_10 = pitch
+    local A_11 = vol
+    local Event = game:GetService("ReplicatedStorage").Damage
+    Event:FireServer(A_1, A_2, A_3, A_4, A_5, A_6, A_7, A_8, A_9, A_10, A_11)
+end
+
+function stun(humanoid,duration) 
+    local A_1 = humanoid
+    local A_2 = humanoid.Parent.HumanoidRootPart.CFrame
+    local A_3 = 0
+    local A_4 = duration
+    local A_5 = Vector3.new(0,0,0)
+    local A_6 = "rbxassetid://0"
+    local A_7 = 0.035
+    local A_8 = Color3.fromRGB(0,0,0)
+    local A_9 = "rbxassetid://0"
+    local A_10 = 1
+    local A_11 = 1
+    local Event = game:GetService("ReplicatedStorage").Damage
+    Event:FireServer(A_1, A_2, A_3, A_4, A_5, A_6, A_7, A_8, A_9, A_10, A_11)
+end
+function doppio(color)
+    game.ReplicatedStorage.TETeleport:FireServer(color)
+end
+function heal(humanoid,damage,knock,cframe,sound,image,color)
+    local A_1 = humanoid
+    local A_2 = cframe
+    local A_3 = damage
+    local A_4 = 0.25
+    local A_5 = knock
+    local A_6 = image
+    local A_7 = 0.035
+    local A_8 = color
+    local A_9 = sound
+    local A_10 = 0.9
+    local A_11 = 1
+    local Event = game:GetService("ReplicatedStorage").Heal5
+    Event:FireServer(A_1, A_2, A_3, A_4, A_5, A_6, A_7, A_8, A_9, A_10, A_11)
+end
+function say(msg)
+    local A_1 = msg
+    local A_2 = "All"
+    local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest
+    Event:FireServer(A_1, A_2)
+end
+function te(color)
+    local A_1 = color
+    local Event = game:GetService("ReplicatedStorage").TETeleport
+    Event:FireServer(A_1)
+end
+function tpEffect()
+    game:GetService("ReplicatedStorage").FOTPSTeleport:FireServer()
+end
+function damage2(humanoid,damage,knock,cframe,sound,image,color) 
+    local A_1 = humanoid
+    local A_2 = cframe
+    local A_3 = damage
+    local A_4 = 0.25
+    local A_5 = knock
+    local A_6 = image
+    local A_7 = 0.035
+    local A_8 = color
+    local A_9 = sound
+    local A_10 = 0.9
+    local A_11 = 1
+    local Event = game:GetService("ReplicatedStorage").Damage2
+    Event:FireServer(A_1, A_2, A_3, A_4, A_5, A_6, A_7, A_8, A_9, A_10, A_11)
+end
+function lookAt(target) 
+    local chrPos=char.HumanoidRootPart.Position
+    local tPos=target.Position 
+    local modTPos=Vector3.new(tPos.X,chrPos.Y,tPos.Z) 
+    local newCF=CFrame.new(chrPos,modTPos)
+    char.HumanoidRootPart.CFrame = newCF
+end
+function dashForward(root,studs)
+    local i = Instance.new('BodyPosition')
+    i.MaxForce = Vector3.new(1000000,0,1000000)
+    i.P = 100000
+    i.D = 2000
+    i.Position = (root.CFrame*CFrame.new(0,0,-40)).Position
+    i.Parent = root
+    spawn(function()
+        wait(.1)
+        i:Destroy()
+    end)
+end
+function dashUpwards(root,studs)
+    local i = Instance.new('BodyPosition')
+    i.MaxForce = Vector3.new(1000000,1000000,1000000)
+    i.P = 100000
+    i.D = 2000
+    i.Position = (root.CFrame*CFrame.new(0,studs,0)).Position
+    i.Parent = root
+    spawn(function()
+        wait(.1)
+        i:Destroy()
+    end)
+end
+function strongPunch(size1,size2,color)
+    local A_1 = size1
+    local A_2 = size2
+    local A_3 = BrickColor.new(color)
+    local Event = game:GetService("ReplicatedStorage").StrongPunch
+    Event:FireServer(A_1, A_2, A_3)
+end
+function knock(humanoid)
+    local A_1 = humanoid
+    local Event = game:GetService("ReplicatedStorage").Knock
+    Event:FireServer(A_1)
+end
+function rasengan()
+    local animation = Instance.new("Animation",game.Workspace)
+    animation.AnimationId = "rbxassetid://74863286"
+    RASENGAN = true
+    game.Debris:AddItem(animation,10)
+    local track = human:LoadAnimation(animation)
+    local hitbox = Instance.new("Part",char)
+    hitbox.Name = "rasengan"
+    hitbox.Anchored = false
+    spawn(function()
+        while char:FindFirstChild("rasengan") do
+            wait(0.00000000001)
+            damage1(char.Humanoid,0,Vector3.new(0,0,0),hitbox.CFrame,"rbxassetid://0","rbxassetid://0",Color3.fromRGB(0,255,255))
+        end
+    end)
+    hitbox.CanCollide = false
+    hitbox.Size = Vector3.new(2,2,2)
+    hitbox.Transparency = 1
+    hitbox.CFrame = char["Right Arm"].CFrame-Vector3.new(0,1.5,0)
+    hitbox.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent ~= char then
+            if not hit.Parent:FindFirstChild("Hit") then
+                local new = Instance.new("StringValue",hit.Parent)
+                new.Name = "Hit"
+                game.Debris:AddItem(new,1)
+                knock(hit.Parent.Humanoid)
+                damage1(hit.Parent.Humanoid,0,char.Head.CFrame.LookVector * 10,hit.Parent.HumanoidRootPart.CFrame,"rbxassetid://2648563122","rbxassetid://0",Color3.new(170, 85, 255))
+                damage2(hit.Parent.Humanoid,50,char.Head.CFrame.LookVector * 100,hit.Parent.HumanoidRootPart.CFrame,"rbxassetid://6968100828","rbxassetid://3370684035",Color3.new(255, 255, 255))
+                wait(.1)
+                hitbox:Destroy()
+                track:Stop()
+                char.Humanoid.WalkSpeed = 16
+                RASENGAN = false
+            end
+        end
+    end)
+    local weld = Instance.new("WeldConstraint",hitbox)
+    weld.Part0 = hitbox
+    weld.Part1 = char["Right Arm"]
+    game.Debris:AddItem(hitbox,5.35)
+    wait()
+    track:Play()
+    wait(.1)
+    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,0,0),"rbxassetid://297469954","rbxassetid://0",Color3.fromRGB(255,69,0),1,10)
+    track:AdjustSpeed(0)
+    char.Humanoid.WalkSpeed = 7
+    wait(.3)
+    char.Humanoid.WalkSpeed = 26
+    wait(5)
+    RASENGAN = false
+    track:Stop()
+    char.Humanoid.WalkSpeed = 16
+end
+function thunderGod()
+    local animation = Instance.new("Animation",game.Workspace)
+    animation.AnimationId = "rbxassetid://4782250127"
+    game.Debris:AddItem(animation,10)
+    local track = human:LoadAnimation(animation)
+    track:Play()
+    wait()
+    track:AdjustSpeed(0)
+    wait()
+    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815421159","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+    track:AdjustSpeed(0.7)
+    tpEffect()
+    dashForward(char.HumanoidRootPart,10)
+    local part = Instance.new("Part",workspace)
+    part.Anchored = false
+    part.CanCollide = false
+    game.Debris:AddItem(part,.6)
+    part.CFrame = char["Right Leg"].CFrame
+    part.Size = char["Right Leg"].Size * 2
+    part.Transparency = 1
+    part.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent ~= char then
+            if not hit.Parent:FindFirstChild("debounce") then
+                thundergod = true
+                track:Stop()
+                local target = hit.Parent.Humanoid
+                local debounce = Instance.new("Folder",target.Parent)
+                debounce.Name = "debounce"
+                game.Debris:AddItem(debounce,1)
+                damage1(target,0,char.Head.CFrame.LookVector * 20,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                damage2(target,10,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                stun(target,10)
+                char.Humanoid.WalkSpeed = 0
+                char.Humanoid.JumpPower = 0
+                for c = 1,30 do
+                    stun(target,1)
+                    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815421159","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+                    char.HumanoidRootPart.CFrame = (CFrame.new(target.Parent.HumanoidRootPart.Position - target.Parent.HumanoidRootPart.CFrame.LookVector.Unit * 10))
+                    lookAt(target.Parent.Head)
+                    tpEffect()
+                    doppio(BrickColor.new("New Yeller"))
+                    damage1(target,0,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                    damage2(target,2.5,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                    wait(.05)
+                    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815421159","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+                    char.HumanoidRootPart.CFrame = target.Parent.HumanoidRootPart.CFrame*CFrame.new(20,math.random(0,5),0)
+                    lookAt(target.Parent.Head)
+                    tpEffect()
+                    doppio(BrickColor.new("New Yeller"))
+                    damage1(target,0,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                    damage2(target,2.5,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                    wait(.05)
+                    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815421159","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+                    char.HumanoidRootPart.CFrame = (CFrame.new(target.Parent.HumanoidRootPart.Position + target.Parent.HumanoidRootPart.CFrame.LookVector.Unit * 10))
+                    lookAt(target.Parent.Head)
+                    tpEffect()
+                    damage1(target,0,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                    damage2(target,2.5,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                    wait(.05)
+                    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815421159","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+                    char.HumanoidRootPart.CFrame = target.Parent.HumanoidRootPart.CFrame*CFrame.new(-20,math.random(0,5),0)
+                    lookAt(target.Parent.Head)
+                    tpEffect()
+                    doppio(BrickColor.new("New Yeller"))
+                    damage1(target,0,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                    damage2(target,2.5,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                    wait(.05)
+                end
+                char.Humanoid.WalkSpeed = 16
+                char.Humanoid.JumpPower = 50
+                thundergod = false
+            end
+        end
+    end)
+    local weld = Instance.new("WeldConstraint",part)
+    weld.Part0 = part
+    weld.Part1 = char["Right Leg"]
+end
+function seal()
+    for _,v in pairs(game.Workspace.Entities:GetChildren()) do
+        if v:FindFirstChild("MinatoSeal") then
+            v.MinatoSeal:Destroy()
+            sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://289556450","rbxassetid://0",Color3.fromRGB(0,0,0),2,1)
+            char.HumanoidRootPart.CFrame = (CFrame.new(v.HumanoidRootPart.Position + v.HumanoidRootPart.CFrame.LookVector.Unit * 5))
+            lookAt(v.Head)
+            break
+        else
+            local animation = Instance.new("Animation",game.Workspace)
+            animation.AnimationId = "rbxassetid://3445790486"
+            game.Debris:AddItem(animation,10)
+            local track = human:LoadAnimation(animation)
+            local hitbox = Instance.new("Part",char)
+            hitbox.Anchored = false
+            hitbox.CanCollide = false
+            hitbox.Size = char["Right Arm"].Size * 1.5
+            hitbox.Transparency = 1
+            hitbox.CFrame = char["Right Arm"].CFrame
+            hitbox.Touched:Connect(function(hit)
+                if hit.Parent:FindFirstChild("Humanoid") and hit.Parent ~= char then
+                    if not hit.Parent:FindFirstChild("Hit") then
+                        hitbox:Destroy()
+                        local new = Instance.new("StringValue",hit.Parent)
+                        new.Name = "Hit"
+                        local minatoSeal = Instance.new("Folder",hit.Parent)
+                        minatoSeal.Name = "MinatoSeal"
+                        game.Debris:AddItem(new,1)
+                        damage1(hit.Parent.Humanoid,0,Vector3.new(0,0,0),hit.Parent.HumanoidRootPart.CFrame,"rbxassetid://6968100828","rbxassetid://0",Color3.new(170, 85, 255))
+                        damage2(hit.Parent.Humanoid,0,char.Head.CFrame.LookVector * 100,hit.Parent.HumanoidRootPart.CFrame,"rbxassetid://6968100828","rbxassetid://3370684035",Color3.new(170, 85, 255))
+                    end
+                end
+            end)
+            local weld = Instance.new("WeldConstraint",hitbox)
+            weld.Part0 = hitbox
+            weld.Part1 = char["Right Arm"]
+            game.Debris:AddItem(hitbox,.9)
+            track:Play(0.1,1,2)
+        end
+    end
+end
+function flash()
+    local center = char.HumanoidRootPart.Position
+    local radius = 50
+    if (center-mouse.Hit.p).magnitude <= radius then
+        sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815422267","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+        strongPunch(Vector3.new(4,4,4),Vector3.new(0,0,0),"New Yeller")
+        doppio(BrickColor.new("New Yeller"))
+        wait(.1)
+        char.HumanoidRootPart.CFrame = mouse.Hit
+    end
+end
+function shikiFujin()
+    local animation = Instance.new("Animation",game.Workspace)
+    animation.AnimationId = "rbxassetid://4782250127"
+    game.Debris:AddItem(animation,10)
+    local track = human:LoadAnimation(animation)
+    track:Play()
+    wait()
+    track:AdjustSpeed(0)
+    wait()
+    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://4815421159","rbxassetid://0",Color3.fromRGB(255,69,0),2,1)
+    track:AdjustSpeed(0.7)
+    local part = Instance.new("Part",workspace)
+    part.Anchored = false
+    part.CanCollide = false
+    game.Debris:AddItem(part,.6)
+    part.CFrame = char["Right Leg"].CFrame
+    part.Size = char["Right Leg"].Size * 2
+    part.Transparency = 1
+    part.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent ~= char then
+            if not hit.Parent:FindFirstChild("debounce") then
+                shikifujin = true
+                track:Stop()
+                local target = hit.Parent.Humanoid
+                local debounce = Instance.new("Folder",target.Parent)
+                debounce.Name = "debounce"
+                game.Debris:AddItem(debounce,1)
+                damage1(target,0,char.Head.CFrame.LookVector * 20,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                damage2(target,1,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                stun(target,30)
+                char.Humanoid.WalkSpeed = 0
+                char.Humanoid.JumpPower = 0
+                wait(.01)
+                game.ReplicatedStorage.RTZ:FireServer()
+                char.HumanoidRootPart.CFrame = (CFrame.new(target.Parent.HumanoidRootPart.Position - target.Parent.HumanoidRootPart.CFrame.LookVector.Unit * 20))
+                lookAt(target.Parent.Head)
+                for count = 1,100 do
+                    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://484293505","rbxassetid://0",Color3.fromRGB(255,69,0),1,5)
+                    wait(.1)
+                end
+                sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://147722098","rbxassetid://0",Color3.fromRGB(255,69,0),1,1)
+                wait(1)
+                game.ReplicatedStorage.DoppioSlam:FireServer()
+                wait(.25)
+                spawn(function()
+                    for c=1,20 do
+                        damage2(target,75,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0))
+                    end
+                end)
+                char.Humanoid.Health = 0
+                char.Humanoid.WalkSpeed = 16
+                char.Humanoid.JumpPower = 50
+                shikifujin = false
+            end
+        end
+    end)
+    local weld = Instance.new("WeldConstraint",part)
+    weld.Part0 = part
+    weld.Part1 = char["Right Leg"]
+end
+function shurikens()
+    local animation = Instance.new("Animation",game.Workspace)
+    animation.AnimationId = "rbxassetid://3445785160"
+    game.Debris:AddItem(animation,10)
+    local track = human:LoadAnimation(animation)
+    track:AdjustSpeed(5)
+    char.Humanoid.WalkSpeed = 0
+    char.Humanoid.JumpPower = 0
+    sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,5,0),"rbxassetid://147722270","rbxassetid://0",Color3.fromRGB(255,69,0),1,5)
+    dashUpwards(char.HumanoidRootPart,15)
+    for count = 1,8 do
+        sound(char.Humanoid,0,Vector3.new(0,0,0),char.HumanoidRootPart.CFrame - Vector3.new(0,25,0),"rbxassetid://5121748357","rbxassetid://0",Color3.fromRGB(255,69,0),1,5)
+        track:Play()
+        local hit4 = Instance.new("Part",game.Workspace)
+        hit4.Anchored = false
+        hit4.CanCollide = true
+        hit4.Name = "Shuriken"
+        hit4.Transparency = 1
+        game.Debris:AddItem(hit4,.5)
+        hit4.Size = Vector3.new(1,1,1)
+        hit4.CFrame = char.HumanoidRootPart.CFrame + char.HumanoidRootPart.CFrame.LookVector *3
+        spawn(function()
+            while game.Workspace:FindFirstChild("Shuriken") do
+                damage1(char.Humanoid,0,Vector3.new(0,0,0),hit4.CFrame,"rbxassetid://0","rbxassetid://0",Color3.fromRGB(0,0,0))
+                wait()
+            end
+        end)
+        local bodyVelo = Instance.new("BodyVelocity", hit4)
+        bodyVelo.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+        bodyVelo.Velocity =  CFrame.new(hit4.Position, mouse.Hit.p).LookVector * 40
+        game.Debris:AddItem(bodyVelo,1)
+        hit4.Touched:Connect(function(hit)
+            if hit.Parent:FindFirstChild("Humanoid") and hit.Parent ~= char then
+                if not hit.Parent:FindFirstChild("debounce") then
+                    local target = hit.Parent.Humanoid
+                    local debounce = Instance.new("Folder",target.Parent)
+                    debounce.Name = "debounce"
+                    game.Debris:AddItem(debounce,.1)
+                    knock(target)
+                    damage1(target,0,char.Head.CFrame.LookVector * 20,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://566593606","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                    damage2(target,7.5,char.Head.CFrame.LookVector * 0,target.Parent.HumanoidRootPart.CFrame,"rbxassetid://2974875851","rbxassetid://0",Color3.fromRGB(255,69,0)) 
+                end
+            end
+        end)
+        wait(.01)
+    end
+    char.Humanoid.WalkSpeed = 16
+    char.Humanoid.JumpPower = 50
+end
+-- Keys
+uis.InputBegan:Connect(function(input, isTyping)
+	if enabled == false then return end
+    if isTyping == true then return end
+    if shikifujin == true then return end
+    if thundergod == true then return end
+    if input.KeyCode == Enum.KeyCode.E then
+        if RASENGAN == false then
+            rasengan()
+        end
+    elseif input.KeyCode == Enum.KeyCode.R then
+        if RASENGAN == false then
+            thunderGod()
+        end
+    elseif input.KeyCode == Enum.KeyCode.T then
+        seal()
+    elseif input.KeyCode == Enum.KeyCode.V then
+        flash()
+    elseif input.KeyCode == Enum.KeyCode.F then
+        if RASENGAN == false then
+            shikiFujin()
+        end
+    elseif input.KeyCode == Enum.KeyCode.Y then
+        if RASENGAN == false then
+            shurikens()
+        end
+    end
+end)
+while wait() do
+    if enabled == true then
+        if char.Humanoid.Health <= 0 then
+            enabled = false
+            shikifujin = false
+            RASENGAN = false
+            thundergod = false
+        end
+    end
+end
